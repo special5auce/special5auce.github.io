@@ -1,0 +1,250 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>VENOMTHROPE // Connection Terminal</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&display=swap');
+
+        :root {
+            --bg-color: #121110;
+            --neon-green: #caff00;
+            --neon-purple: #9d2bf5;
+            --neon-cyan: #00f0ff;
+            --text-muted: #8a8880;
+        }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--neon-green);
+            font-family: 'Share Tech Mono', monospace;
+            margin: 0;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-image: 
+                repeating-linear-gradient(
+                    0deg,
+                    rgba(0, 0, 0, 0.15),
+                    rgba(0, 0, 0, 0.15) 1px,
+                    transparent 1px,
+                    transparent 2px
+                );
+            overflow: hidden;
+        }
+
+        .terminal-container {
+            width: 90%;
+            max-width: 800px;
+            border: 2px solid;
+            border-image: linear-gradient(90deg, var(--neon-purple), var(--neon-green)) 1;
+            padding: 2px;
+            position: relative;
+            box-shadow: 0 0 20px rgba(157, 43, 245, 0.2);
+        }
+
+        .terminal-inner {
+            background-color: #151515;
+            padding: 30px;
+            position: relative;
+        }
+
+        /* Top Bar */
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.8rem;
+            color: var(--neon-green);
+            margin-bottom: 40px;
+            letter-spacing: 2px;
+        }
+
+        .signal { color: var(--neon-purple); }
+        .signal span { display: inline-block; width: 8px; height: 8px; background: var(--neon-purple); margin-left: 2px; }
+
+        /* Main Branding */
+        h1 {
+            font-size: 4rem;
+            margin: 0;
+            line-height: 0.9;
+            color: var(--neon-green);
+            text-transform: uppercase;
+            text-shadow: 2px 2px 0px rgba(0,0,0,0.8);
+        }
+        
+        h1 span.white { color: #ffffff; }
+
+        .subtitle {
+            background-color: var(--neon-purple);
+            color: #111;
+            display: inline-block;
+            padding: 5px 15px;
+            font-weight: bold;
+            margin-top: 10px;
+            margin-bottom: 40px;
+            letter-spacing: 1px;
+        }
+
+        /* Status & Console */
+        .console-box {
+            border-left: 2px solid var(--neon-cyan);
+            padding-left: 15px;
+            margin-bottom: 40px;
+        }
+
+        .brackets {
+            color: var(--neon-green);
+            font-size: 1.2rem;
+            margin-bottom: 15px;
+            display: block;
+        }
+
+        .log {
+            color: var(--text-muted);
+            margin: 5px 0;
+            font-size: 1.1rem;
+        }
+        
+        .log.active {
+            color: var(--neon-cyan);
+            animation: pulse 1.5s infinite;
+        }
+
+        /* Override Button */
+        .action-area {
+            margin-top: 30px;
+            border-top: 1px dashed var(--text-muted);
+            padding-top: 20px;
+        }
+
+        .fallback-text {
+            color: var(--text-muted);
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+
+        .join-btn {
+            background-color: var(--neon-green);
+            color: #111;
+            text-decoration: none;
+            padding: 12px 30px;
+            font-size: 1.2rem;
+            font-weight: bold;
+            display: inline-flex;
+            align-items: center;
+            clip-path: polygon(0 0, 95% 0, 100% 30%, 100% 100%, 5% 100%, 0 70%);
+            transition: all 0.2s ease;
+        }
+
+        .join-btn:hover {
+            background-color: #ffffff;
+            box-shadow: 0 0 15px var(--neon-green);
+        }
+
+        /* Bottom Bar */
+        .bottom-bar {
+            margin-top: 50px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-end;
+            font-size: 0.8rem;
+        }
+
+        .barcode {
+            font-size: 2rem;
+            letter-spacing: -2px;
+            color: #fff;
+        }
+
+        .status-tags {
+            display: flex;
+            gap: 15px;
+        }
+
+        .tag {
+            border: 1px solid var(--neon-purple);
+            padding: 4px 8px;
+            color: var(--neon-purple);
+        }
+
+        .tag.cyan {
+            border-color: var(--neon-cyan);
+            color: #111;
+            background-color: var(--neon-cyan);
+        }
+
+        @keyframes pulse {
+            0% { opacity: 1; }
+            50% { opacity: 0.5; }
+            100% { opacity: 1; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-container">
+        <div class="terminal-inner">
+            <div class="top-bar">
+                <div>+ VNM-07 // OBSERVATION DECK</div>
+                <div class="signal">SIGNAL <span></span><span></span><span></span></div>
+            </div>
+
+            <h1>VENOM<br><span class="white">THROPE</span></h1>
+            <div class="subtitle">FOG MACHINE RENTALS /07</div>
+
+            <div class="console-box">
+                <span class="brackets">[CAUTION]</span>
+                <p class="log">> TARGET: ANCIENT RUINS</p>
+                <p class="log">> SHROUD LEVEL: 87%</p>
+                <p class="log active" id="boot-status">> INITIATING STEAM PROTOCOL...</p>
+            </div>
+
+            <div class="action-area">
+                <p class="fallback-text">IF BROWSER BLOCKS AUTOMATIC LAUNCH:</p>
+                <!-- UPDATE YOUR IP AND PORT BELOW -->
+                <a href="steam://connect/216.225.144.124:15637" class="join-btn" id="manual-join">
+                    JOIN THE SERVER >>>
+                </a>
+            </div>
+
+            <div class="bottom-bar">
+                <div class="barcode">||||||||||||||||||||||||</div>
+                <div class="status-tags">
+                    <div class="tag">SEALED • PRESSURISED</div>
+                    <div class="tag cyan">ATMOS: TOXIC</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+
+        const serverIP = "1216.225.144.124"; 
+        const serverPort = "15637";
+        
+        const steamUrl = `steam://connect/${serverIP}:${serverPort}`;
+        const statusText = document.getElementById('boot-status');
+        const manualBtn = document.getElementById('manual-join');
+
+        // Ensure the button points to the configured URL
+        manualBtn.href = steamUrl;
+
+        // Sequence timing for visual flair
+        setTimeout(() => {
+            statusText.innerText = "> REQUESTING CLIENT HANDSHAKE...";
+        }, 1200);
+
+        setTimeout(() => {
+            statusText.innerText = "> LAUNCHING GAME... WAITING ON STEAM.";
+            statusText.classList.remove('active');
+            statusText.style.color = "var(--neon-green)";
+            
+            // Trigger the auto-redirect
+            window.location.href = steamUrl;
+        }, 2800);
+    </script>
+
+</body>
+</html>
