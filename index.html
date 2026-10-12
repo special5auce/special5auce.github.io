@@ -201,30 +201,27 @@
                 <p class="log active" id="boot-status">> INITIATING STEAM PROTOCOL...</p>
             </div>
 
-            <div class="action-area">
+           <div class="action-area">
                 <p class="fallback-text">IF BROWSER BLOCKS AUTOMATIC LAUNCH:</p>
-                <a href="steam://connect/216.225.144.124:15637/Biomass40" class="join-btn" id="manual-join">
+                <a href="steam://connect/216.225.144.124:15637" class="join-btn" id="manual-join">
                     JOIN THE SERVER >>>
                 </a>
             </div>
-
             <div class="bottom-bar">
                 <div class="barcode">||||||||||||||||||||||||</div>
                 <div class="status-tags">
                     <div class="tag">SEALED • PRESSURISED</div>
                     <div class="tag cyan">ATMOS: TOXIC</div>
-                </div>
-            </div>
+             </div>
         </div>
     </div>
 
     <script>
-        const steamUrl = "steam://run/1203620//+connect 216.225.144.124:15637 +password Biomass40";
         const statusText = document.getElementById('boot-status');
         const manualBtn = document.getElementById('manual-join');
-
-        // Ensure the button points to the configured URL
-        manualBtn.href = steamUrl;
+        
+        // Grab the raw, un-mangled URL directly from the HTML element
+        const targetUrl = manualBtn.getAttribute('href');
 
         // Sequence timing for visual flair
         setTimeout(() => {
@@ -236,10 +233,13 @@
             statusText.classList.remove('active');
             statusText.style.color = "var(--neon-green)";
             
-            // Trigger the auto-redirect
-            window.location.href = steamUrl;
+            // Trigger the auto-redirect using a hidden iframe instead of window.location
+            // This bypasses top-level navigation security blocks in modern browsers
+            let iframe = document.createElement("iframe");
+            iframe.style.display = "none";
+            iframe.src = targetUrl;
+            document.body.appendChild(iframe);
         }, 2800);
     </script>
-
 </body>
 </html>
